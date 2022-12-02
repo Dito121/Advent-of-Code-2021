@@ -8,8 +8,15 @@ class Solution:
 
         with open(self.file, "r") as file:
             self.lines = file.readlines()
+        self.filtered_o2 = self.lines
+        self.filtered_co2 = self.lines
+        self.find_most_common()
 
-    def solve_part_1(self):
+    def find_most_common(self) -> None:
+        self.epsilon = ""
+        self.gamma = ""
+        self.count = [0] * self.n
+
         for line in self.lines:
             binary = line.strip()
             for i in range(len(binary)):
@@ -26,13 +33,37 @@ class Solution:
                 self.gamma += "0"
                 self.epsilon += "1"
 
-        self.gamma = int(self.gamma, 2)
-        self.epsilon = int(self.epsilon, 2)
+    def solve_part_1(self) -> int:
+        return int(self.gamma, 2) * int(self.epsilon, 2)
 
-        return self.gamma * self.epsilon
+    def solve_part_2(self) -> int:
+        p_i = 0
+        while len(self.filtered_o2) > 1:
+            if self.gamma[p_i] == "1":
+                self.filtered_o2 = list(
+                    filter(lambda line: line[p_i] == "1", self.filtered_o2)
+                )
+            else:
+                self.filtered_o2 = list(
+                    filter(lambda line: line[p_i] == "0", self.filtered_o2)
+                )
+            p_i += 1
+            print(self.filtered_o2)
 
-    def solve_part_2(self):
-        
+        p_i = 0
+        while len(self.filtered_co2) > 1:
+            if self.gamma[p_i] == "1":
+                self.filtered_co2 = list(
+                    filter(lambda line: line[p_i] == "0", self.filtered_co2)
+                )
+            else:
+                self.filtered_co2 = list(
+                    filter(lambda line: line[p_i] == "1", self.filtered_co2)
+                )
+            p_i += 1
+            print(self.filtered_co2)
+
+        return int(self.filtered_o2[0], 2) * int(self.filtered_co2[0], 2)
 
 
 # answer = Solution("day_3/puzzle_3_data.txt", n=12)
