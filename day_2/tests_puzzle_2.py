@@ -7,7 +7,7 @@ class test_problems(unittest.TestCase):
         puzzle2 = Solution("day_2/puzzle_2_sample_data.txt")
 
         self.assertEqual(puzzle2.solve_part_1(), 150)
-        # self.assertEqual(puzzle2.solve_part_2(), )
+        self.assertEqual(puzzle2.solve_part_2(), 900)
 
 
 if __name__ == "__main__":
