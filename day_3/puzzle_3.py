@@ -7,7 +7,7 @@ class Solution:
         self.count = [0] * self.n
 
         with open(self.file, "r") as file:
-            self.lines = file.readlines()
+            self.lines = [line.strip() for line in file]
         self.filtered_o2 = self.lines
         self.filtered_co2 = self.lines
         self.find_most_common()
@@ -18,9 +18,8 @@ class Solution:
         self.count = [0] * self.n
 
         for line in self.lines:
-            binary = line.strip()
-            for i in range(len(binary)):
-                if binary[i] == "1":
+            for i in range(len(line)):
+                if line[i] == "1":
                     self.count[i] += 1
                 else:
                     self.count[i] -= 1
@@ -48,11 +47,10 @@ class Solution:
                     filter(lambda line: line[p_i] == "0", self.filtered_o2)
                 )
             p_i += 1
-            print(self.filtered_o2)
 
         p_i = 0
         while len(self.filtered_co2) > 1:
-            if self.gamma[p_i] == "1":
+            if self.epsilon[p_i] == "0":
                 self.filtered_co2 = list(
                     filter(lambda line: line[p_i] == "0", self.filtered_co2)
                 )
@@ -61,7 +59,6 @@ class Solution:
                     filter(lambda line: line[p_i] == "1", self.filtered_co2)
                 )
             p_i += 1
-            print(self.filtered_co2)
 
         return int(self.filtered_o2[0], 2) * int(self.filtered_co2[0], 2)
 
