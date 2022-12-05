@@ -1,27 +1,34 @@
 class Solution:
     def __init__(self, file: str) -> int:
         self.file = file
-        self.scores = []
         self.boards = []
 
         with open(self.file, "r") as file:
-            for line in file:
-                if len(line.strip()) == 0:
+            file = list(file)
+            for i in range(len(file)):
+                if file[i].strip() == "":
                     continue
-                self.boards.append(line.strip().split())
-        self.nums = self.boards[0]
-        del self.boards[0]
+                elif i == 0:
+                    self.nums = list(map(int, file[i].strip().split(",")))
+                    continue
+                self.boards.append(list(map(int, file[i].strip().split())))
 
-    def check_boards(self):
-        for i in range(1, len(self.boards), 5):
-            board = self.boards[i : i + 5]
-            row_count = col_count = [0] * 5
-
-            for j in range(len(board)):
-                for k in range(len(board[j])):
-                    pass
+        self.filter = [[False] * len(self.boards[0])] * len(self.boards)
 
     def solve_part_1(self):
+        for i in range(len(self.nums)):
+            for row in range(len(self.boards)):
+                for col in range(len(self.boards[row])):
+                    if (
+                        self.filter[row][col] == False
+                        and self.boards[row][col] == self.nums[i]
+                    ):
+                        self.filter[row][col] = True
+
+                if sum(self.filter[row]) == 5:
+                    return sum(self.boards[row]) * self.nums[i]
+
+    def solve_part_2(self):
         pass
 
 
