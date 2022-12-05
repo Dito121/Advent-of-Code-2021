@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Solution:
     def __init__(self, file: str) -> int:
         self.file = file
@@ -19,14 +22,18 @@ class Solution:
         for i in range(len(self.nums)):
             for row in range(len(self.boards)):
                 for col in range(len(self.boards[row])):
-                    if (
-                        self.filter[row][col] == False
-                        and self.boards[row][col] == self.nums[i]
-                    ):
+                    if self.boards[row][col] == self.nums[i]:
                         self.filter[row][col] = True
 
                 if sum(self.filter[row]) == 5:
-                    return sum(self.boards[row]) * self.nums[i]
+                    return i
+                    board_n = ((len(self.boards) // 5) - 1) * 5
+                    board = np.array(self.boards[board_n : board_n + 5])
+                    filtered_board = np.array(self.filter[board_n : board_n + 5])
+                    filtered_board = np.dot(board, filtered_board)
+
+                    print(i)
+                    return np.sum(filtered_board) * self.nums[i]
 
     def solve_part_2(self):
         pass
